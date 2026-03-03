@@ -1,0 +1,118 @@
+0 HEAD
+1 GEDC
+2 VERS 7.0
+2 FORM LINEAGE-LINKED
+1 CHAR UTF-8
+1 SOUR Family Tree Application
+2 VERS 1.0
+2 NAME Family Tree Application
+1 DATE 3 MAR 2026
+2 TIME 00:00:00
+1 FILE template_nieuw_start.ged
+0 @I1@ INDI
+1 NAME Voornaam /Achternaam/
+2 GIVN Voornaam
+2 SURN Achternaam
+1 SEX M
+1 BIRT
+2 DATE 1 JAN 1900
+2 PLAC Geboorteplaats
+1 DEAT
+2 DATE 1 JAN 1970
+2 PLAC Overlijdensplaats
+1 OCCU Beroep
+1 NOTE Notities of bronverwijzing (bijv. URL of archiefnummer)
+1 SOUR https://voorbeeld-bron.nl
+1 FAMS @F1@
+0 @I2@ INDI
+1 NAME Voornaam /Meisjesnaam/
+2 GIVN Voornaam
+2 SURN Meisjesnaam
+1 SEX F
+1 BIRT
+2 DATE 1 JAN 1905
+2 PLAC Geboorteplaats
+1 DEAT
+2 DATE 1 JAN 1975
+2 PLAC Overlijdensplaats
+1 OCCU Beroep
+1 NOTE Notities of bronverwijzing
+1 SOUR https://voorbeeld-bron.nl
+1 FAMS @F1@
+0 @I3@ INDI
+1 NAME Voornaam /Achternaam/
+2 GIVN Voornaam
+2 SURN Achternaam
+1 SEX M
+1 BIRT
+2 DATE 1 JAN 1930
+2 PLAC Geboorteplaats
+1 DEAT
+2 DATE 1 JAN 2000
+2 PLAC Overlijdensplaats
+1 OCCU Beroep
+1 NOTE Notities of bronverwijzing
+1 SOUR https://voorbeeld-bron.nl
+1 FAMC @F1@
+1 FAMS @F2@
+0 @I4@ INDI
+1 NAME Voornaam /Meisjesnaam/
+2 GIVN Voornaam
+2 SURN Meisjesnaam
+1 SEX F
+1 BIRT
+2 DATE 1 JAN 1932
+2 PLAC Geboorteplaats
+1 DEAT
+2 DATE 1 JAN 2005
+2 PLAC Overlijdensplaats
+1 OCCU Beroep
+1 NOTE Notities of bronverwijzing
+1 SOUR https://voorbeeld-bron.nl
+1 FAMS @F2@
+0 @I5@ INDI
+1 NAME Voornaam /Achternaam/
+2 GIVN Voornaam
+2 SURN Achternaam
+1 SEX M
+1 BIRT
+2 DATE 1 JAN 1955
+2 PLAC Geboorteplaats
+1 OCCU Beroep
+1 NOTE Notities of bronverwijzing
+1 FAMC @F2@
+1 FAMS @F3@
+0 @I6@ INDI
+1 NAME Voornaam /Meisjesnaam/
+2 GIVN Voornaam
+2 SURN Meisjesnaam
+1 SEX F
+1 BIRT
+2 DATE 1 JAN 1958
+2 PLAC Geboorteplaats
+1 OCCU Beroep
+1 NOTE Notities of bronverwijzing
+1 FAMS @F3@
+0 @I7@ INDI
+1 NAME Voornaam /Achternaam/
+2 GIVN Voornaam
+2 SURN Achternaam
+1 SEX M
+1 BIRT
+2 DATE 1 JAN 1980
+2 PLAC Geboorteplaats
+1 NOTE Notities of bronverwijzing
+1 FAMC @F3@
+0 @F1@ FAM
+1 HUSB @I1@
+1 WIFE @I2@
+1 CHIL @I3@
+0 @F2@ FAM
+1 HUSB @I3@
+1 WIFE @I4@
+1 CHIL @I5@
+0 @F3@ FAM
+1 HUSB @I5@
+1 WIFE @I6@
+1 CHIL @I7@
+0 TRLR
