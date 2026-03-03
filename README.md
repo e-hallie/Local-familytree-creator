@@ -7,4 +7,6 @@ De boom wordt weergegeven als een hiërarchische grafiek — generaties naast el
 
 
 EN-
-The Family Tree Application is an interactive, browser-based tool for recording, visualizing, and managing genealogical data. The application consists of a single HTML file and does not require any installation or internet connection after the file is loaded. The tree is represented as a hierarchical graph — generations side by side, with lines showing parent-child relationships and dotted red connections for marriages/partnerships. People can be freely added, edited, and removed through a form interface.
+The Family Tree Application is an interactive, browser-based tool for recording, visualizing, and managing genealogical data. The application consists of a single HTML file and does not require any installation or internet connection after the file is loaded. 
+
+The tree is represented as a hierarchical graph — generations side by side, with lines showing parent-child relationships and dotted red connections for marriages/partnerships. People can be freely added, edited, and removed through a form interface.
