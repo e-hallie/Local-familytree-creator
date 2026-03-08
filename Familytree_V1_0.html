@@ -140,6 +140,55 @@
             background: #e67e22;
         }
 
+        .btn.print {
+            background: #8e44ad;
+        }
+
+        .btn.print:hover {
+            background: #7d3c98;
+        }
+
+        /* ── Print PDF ────────────────────────────────── */
+        @media print {
+            * {
+                print-color-adjust: exact !important;
+                -webkit-print-color-adjust: exact !important;
+            }
+            body {
+                overflow: visible !important;
+                background: white !important;
+                height: auto !important;
+            }
+            .app-container {
+                display: block !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            .top-bar, .bottom-bar, .welcome-screen {
+                display: none !important;
+            }
+            .main-area {
+                overflow: visible !important;
+                position: relative !important;
+                height: auto !important;
+                flex: none !important;
+            }
+            .tree-container {
+                overflow: visible !important;
+                width: 100% !important;
+                height: auto !important;
+            }
+            .tree-svg {
+                width: 100% !important;
+                height: auto !important;
+                min-height: 90vh !important;
+            }
+            body.print-screen .info-panel.visible {
+                display: block !important;
+                position: absolute !important;
+            }
+        }
+
         .main-area {
             flex: 1;
             position: relative;
@@ -704,6 +753,7 @@
                 <button id="saveBtn" class="btn success">Save XML</button>
                 <button id="importGedcomBtn" class="btn">Import GEDCOM</button>
                 <button id="exportGedcomBtn" class="btn warning">Export GEDCOM</button>
+                <button id="printBtn" class="btn print">Print PDF</button>
                 <input type="file" id="fileInput" accept=".xml" />
                 <input type="file" id="gedcomFileInput" accept=".ged,.gedcom" />
             </div>
@@ -872,6 +922,7 @@
             document.getElementById('saveBtn').addEventListener('click', saveFile);
             document.getElementById('importGedcomBtn').addEventListener('click', importGedcom);
             document.getElementById('exportGedcomBtn').addEventListener('click', exportGedcom);
+            document.getElementById('printBtn').addEventListener('click', printScreen);
             document.getElementById('fileInput').addEventListener('change', handleFileLoad);
             document.getElementById('gedcomFileInput').addEventListener('change', handleGedcomLoad);
 
@@ -3513,6 +3564,54 @@
                     text: 'Failed to export GEDCOM file: ' + error.message
                 });
             }
+        }
+
+        // ===== Print PDF (schermweergave) =====
+        function printScreen() {
+            if (!treeData || treeData.length === 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Geen stamboom',
+                    text: 'Laad eerst een stamboom voordat u kunt printen.',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                return;
+            }
+
+            // Save current transform
+            const currentTransform = d3.zoomTransform(svg.node());
+            const svgEl = svg.node();
+            const rect = svgEl.getBoundingClientRect();
+
+            // Calculate the visible area in SVG coordinates (inverse of current transform)
+            const t = currentTransform;
+            const vbX = (0 - t.x) / t.k;
+            const vbY = (0 - t.y) / t.k;
+            const vbW = rect.width / t.k;
+            const vbH = rect.height / t.k;
+
+            // Set viewBox so the SVG renders the current view at full print size
+            svgEl.setAttribute('viewBox', `${vbX} ${vbY} ${vbW} ${vbH}`);
+            svgEl.style.width = '100%';
+            svgEl.style.height = 'auto';
+            svgEl.style.minHeight = '90vh';
+            g.attr('transform', null);
+
+            document.body.classList.add('print-screen');
+
+            const cleanup = () => {
+                document.body.classList.remove('print-screen');
+                // Restore SVG
+                svgEl.removeAttribute('viewBox');
+                svgEl.style.width = '';
+                svgEl.style.height = '';
+                svgEl.style.minHeight = '';
+                svg.call(zoom.transform, currentTransform);
+            };
+
+            window.addEventListener('afterprint', cleanup, { once: true });
+            setTimeout(() => window.print(), 200);
         }
 
         function generateGEDCOM() {
