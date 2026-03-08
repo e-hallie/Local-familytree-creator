@@ -346,6 +346,36 @@
             opacity: 0.3;
         }
 
+        /* Patriline (familienaam lijn) highlight */
+        .node.patriline rect {
+            stroke: #e67e22 !important;
+            stroke-width: 4px !important;
+            filter: brightness(1.15);
+        }
+
+        .link.patriline {
+            stroke: #e67e22 !important;
+            stroke-width: 3.5px !important;
+            stroke-dasharray: none !important;
+        }
+
+        .patriline-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 14px;
+            background: #e67e22;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s ease;
+        }
+
+        .patriline-btn:hover {
+            background: #d35400;
+        }
+
         /* Info Panel */
         .info-panel {
             position: absolute;
@@ -1939,6 +1969,14 @@
                 }
             }
 
+            // Familie naam lijn button
+            html += '<hr class="info-section-divider">';
+            html += `<div class="info-field" style="text-align:center;">
+                <button class="patriline-btn" onclick="highlightPatriline(${member.id})">
+                    Familie naam lijn
+                </button>
+            </div>`;
+
             contentEl.innerHTML = html;
             panel.classList.add('visible');
         }
@@ -2071,6 +2109,153 @@
                         d3.select(this).classed('dimmed', true);
                     }
                 });
+            }
+        }
+
+        // Highlight the patrilineal (familienaam) line through a person
+        function highlightPatriline(memberId) {
+            const patriline = new Set();
+
+            // Trace upward through fathers
+            function traceUp(id) {
+                const member = treeData.find(m => m.id === id);
+                if (!member) return;
+                patriline.add(id);
+                if (member.fatherId) {
+                    traceUp(member.fatherId);
+                }
+            }
+
+            // Trace downward through children who carry the family name
+            function traceDown(id, familyName) {
+                const member = treeData.find(m => m.id === id);
+                if (!member) return;
+                patriline.add(id);
+                member.childIds.forEach(childId => {
+                    const child = treeData.find(m => m.id === childId);
+                    if (!child) return;
+                    if (child.gender === 'Male') {
+                        // Sons always carry the name — trace further
+                        traceDown(childId, familyName);
+                    } else if (child.lastName && child.lastName.toLowerCase() === familyName) {
+                        // Daughters with the family name — include but don't trace further
+                        patriline.add(childId);
+                    }
+                });
+            }
+
+            // Determine the family name from the starting person (trace up to get the patriline name)
+            const startMember = treeData.find(m => m.id === memberId);
+            let familyName = '';
+            if (startMember) {
+                // Find the highest father to get the family name
+                let current = startMember;
+                while (current && current.fatherId) {
+                    const father = treeData.find(m => m.id === current.fatherId);
+                    if (father) current = father; else break;
+                }
+                familyName = (current.lastName || '').toLowerCase();
+            }
+
+            // Start from the selected person: go up via fathers, down via sons + daughters with same name
+            traceUp(memberId);
+            traceDown(memberId, familyName);
+
+            // Also add spouses (wives) of patriline men for context
+            const spouseIds = new Set();
+            patriline.forEach(id => {
+                const member = treeData.find(m => m.id === id);
+                if (member && member.gender === 'Male') {
+                    member.childIds.forEach(childId => {
+                        const child = treeData.find(m => m.id === childId);
+                        if (child && child.motherId) {
+                            spouseIds.add(child.motherId);
+                        }
+                    });
+                }
+            });
+
+            // Reset all highlighting
+            if (root.nodeElements) {
+                root.nodeElements.classed('highlighted dimmed patriline search-highlight search-dimmed', false);
+            }
+            if (root.linkElements) {
+                root.linkElements.classed('highlighted dimmed patriline', false);
+            }
+            if (root.marriageLinkElements) {
+                root.marriageLinkElements.classed('highlighted dimmed patriline', false);
+            }
+
+            // Apply patriline highlighting
+            if (root.nodeElements) {
+                root.nodeElements.each(function(d) {
+                    if (patriline.has(d.data.id)) {
+                        d3.select(this).classed('patriline', true);
+                    } else if (spouseIds.has(d.data.id)) {
+                        d3.select(this).classed('highlighted', true);
+                    } else {
+                        d3.select(this).classed('dimmed', true);
+                    }
+                });
+            }
+
+            // Highlight links between patriline members
+            if (root.linkElements) {
+                root.linkElements.each(function(d) {
+                    const sId = d.source.data.id;
+                    const tId = d.target.data.id;
+                    if (patriline.has(sId) && patriline.has(tId)) {
+                        d3.select(this).classed('patriline', true);
+                    } else {
+                        d3.select(this).classed('dimmed', true);
+                    }
+                });
+            }
+
+            // Highlight marriage links for patriline men with their spouses
+            if (root.marriageLinkElements) {
+                root.marriageLinkElements.each(function(d) {
+                    const sId = d.source.data.id;
+                    const tId = d.target.data.id;
+                    const hasPatriMember = patriline.has(sId) || patriline.has(tId);
+                    const hasSpouse = spouseIds.has(sId) || spouseIds.has(tId);
+                    if (hasPatriMember && hasSpouse) {
+                        d3.select(this).classed('highlighted', true);
+                    } else {
+                        d3.select(this).classed('dimmed', true);
+                    }
+                });
+            }
+
+            // Zoom to fit the patriline nodes
+            if (root.nodeElements) {
+                const patriNodes = [];
+                root.nodeElements.each(function(d) {
+                    if (patriline.has(d.data.id) || spouseIds.has(d.data.id)) {
+                        patriNodes.push(d);
+                    }
+                });
+
+                if (patriNodes.length > 1) {
+                    const bounds = svg.node().getBoundingClientRect();
+                    const xExtent = d3.extent(patriNodes, d => d.x);
+                    const yExtent = d3.extent(patriNodes, d => d.y);
+                    const padding = 250;
+                    const xRange = xExtent[1] - xExtent[0] + padding;
+                    const yRange = yExtent[1] - yExtent[0] + padding;
+                    const scale = Math.min(
+                        bounds.width / xRange,
+                        bounds.height / yRange,
+                        1.5
+                    ) * 0.8;
+                    const centerX = (xExtent[0] + xExtent[1]) / 2;
+                    const centerY = (yExtent[0] + yExtent[1]) / 2;
+                    const transform = d3.zoomIdentity
+                        .translate(bounds.width / 2, bounds.height / 2)
+                        .scale(scale)
+                        .translate(-centerX, -centerY);
+                    svg.transition().duration(750).call(zoom.transform, transform);
+                }
             }
         }
 
