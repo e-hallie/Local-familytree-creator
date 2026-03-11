@@ -366,8 +366,8 @@
 
         .link {
             fill: none;
-            stroke: #7f8c8d;
-            stroke-width: 2px;
+            stroke: #34495e;
+            stroke-width: 2.5px;
             transition: all 0.3s ease;
         }
 
@@ -688,6 +688,75 @@
 
         .btn-remove:hover {
             background: #c0392b;
+        }
+
+        .btn-link-child {
+            background: #8e44ad;
+            color: white;
+        }
+
+        .btn-link-child:hover {
+            background: #7d3c98;
+        }
+
+        /* Person picker list (for linking existing child) */
+        .person-picker-search {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease;
+        }
+
+        .person-picker-search:focus {
+            outline: none;
+            border-color: #8e44ad;
+        }
+
+        .person-picker-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        .person-picker-item {
+            padding: 10px 14px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.15s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .person-picker-item:last-child {
+            border-bottom: none;
+        }
+
+        .person-picker-item:hover {
+            background: #f3e5f5;
+        }
+
+        .person-picker-item .person-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .person-picker-item .person-info {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .person-picker-empty {
+            padding: 20px;
+            text-align: center;
+            color: #999;
+            font-style: italic;
         }
 
         /* Loading and Error States */
@@ -2435,6 +2504,7 @@
             }
             
             actions += `<button class="btn-add-child">Add Child</button>`;
+            actions += `<button class="btn-link-child">Bestaand kind koppelen</button>`;
             actions += `<button class="btn-edit">Save Changes</button>`;
             actions += `<button class="btn-remove">Remove Person</button>`;
             actions += `</div>`;
@@ -2456,7 +2526,13 @@
             if (addChildBtn) {
                 addChildBtn.addEventListener('click', () => addChild(node));
             }
-            
+
+            // Link existing child button
+            const linkChildBtn = document.querySelector('.btn-link-child');
+            if (linkChildBtn) {
+                linkChildBtn.addEventListener('click', () => linkExistingChild(node));
+            }
+
             // Save changes button
             const saveBtn = document.querySelector('.btn-edit');
             if (saveBtn) {
@@ -2584,6 +2660,167 @@
                             showMemberForm(newChildNode);
                         }
                     }, 100);
+                }
+            });
+        }
+
+        function linkExistingChild(node) {
+            const parentMember = node.data;
+            const parentRole = parentMember.gender === 'Male' ? 'vader' : 'moeder';
+            const parentField = parentMember.gender === 'Male' ? 'fatherId' : 'motherId';
+
+            // Build set of ancestors to prevent circular references
+            const ancestors = new Set();
+            function traceAncestors(id) {
+                if (!id || ancestors.has(id)) return;
+                ancestors.add(id);
+                const m = treeData.find(p => p.id === id);
+                if (m) {
+                    traceAncestors(m.fatherId);
+                    traceAncestors(m.motherId);
+                }
+            }
+            traceAncestors(parentMember.id);
+
+            // Filter eligible persons (exclude self, ancestors, and already-linked children)
+            const existingChildIds = new Set(parentMember.childIds || []);
+            const eligible = treeData.filter(m =>
+                m.id !== parentMember.id &&
+                !ancestors.has(m.id) &&
+                !existingChildIds.has(m.id)
+            );
+
+            // Sort alphabetically
+            eligible.sort((a, b) => getFullName(a).localeCompare(getFullName(b)));
+
+            // Helper: extract birth year for display
+            function getBirthYear(member) {
+                if (!member.birthDate) return '';
+                const parts = member.birthDate.split('/');
+                const year = parts[parts.length - 1];
+                return year ? (member.birthDateCirca ? `ca. ${year}` : year) : '';
+            }
+
+            // Build person list HTML
+            function buildListHTML(persons) {
+                if (persons.length === 0) {
+                    return '<div class="person-picker-empty">Geen personen gevonden</div>';
+                }
+                return persons.map(m => {
+                    const name = getFullName(m);
+                    const year = getBirthYear(m);
+                    const genderIcon = m.gender === 'Male' ? '♂' : '♀';
+                    const yearText = year ? ` (${year})` : '';
+                    return `<div class="person-picker-item" data-id="${m.id}">
+                        <span class="person-name">${genderIcon} ${name}${yearText}</span>
+                        <span class="person-info">ID ${m.id}</span>
+                    </div>`;
+                }).join('');
+            }
+
+            Swal.fire({
+                title: 'Bestaand kind koppelen',
+                html: `
+                    <p style="margin-bottom:10px; color:#555; font-size:13px;">
+                        Selecteer een bestaand persoon om te koppelen als kind van <strong>${getFullName(parentMember)}</strong>:
+                    </p>
+                    <input type="text" class="person-picker-search" placeholder="Zoek op naam..." id="personPickerSearch">
+                    <div class="person-picker-list" id="personPickerList">
+                        ${buildListHTML(eligible)}
+                    </div>
+                `,
+                showConfirmButton: false,
+                showCancelButton: true,
+                cancelButtonText: 'Annuleren',
+                width: '500px',
+                didOpen: () => {
+                    const searchInput = document.getElementById('personPickerSearch');
+                    const listContainer = document.getElementById('personPickerList');
+
+                    // Live search filtering
+                    searchInput.addEventListener('input', () => {
+                        const query = searchInput.value.toLowerCase().trim();
+                        const filtered = query
+                            ? eligible.filter(m => getFullName(m).toLowerCase().includes(query))
+                            : eligible;
+                        listContainer.innerHTML = buildListHTML(filtered);
+                        attachItemListeners();
+                    });
+
+                    function attachItemListeners() {
+                        listContainer.querySelectorAll('.person-picker-item').forEach(item => {
+                            item.addEventListener('click', () => {
+                                const childId = parseInt(item.getAttribute('data-id'));
+                                selectChild(childId);
+                            });
+                        });
+                    }
+
+                    function selectChild(childId) {
+                        const child = treeData.find(m => m.id === childId);
+                        if (!child) return;
+
+                        // Check if child already has a parent of the same gender
+                        if (child[parentField]) {
+                            const existingParent = treeData.find(m => m.id === child[parentField]);
+                            const existingName = existingParent ? getFullName(existingParent) : 'onbekend';
+
+                            Swal.fire({
+                                title: 'Ouder overschrijven?',
+                                html: `<strong>${getFullName(child)}</strong> heeft al een ${parentRole}:<br><strong>${existingName}</strong>.<br><br>Wilt u deze overschrijven?`,
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'Ja, overschrijven',
+                                cancelButtonText: 'Nee, annuleren',
+                                confirmButtonColor: '#8e44ad'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    performLink(child, childId);
+                                }
+                            });
+                        } else {
+                            performLink(child, childId);
+                        }
+                    }
+
+                    function performLink(child, childId) {
+                        // Remove child from old parent's childIds if overwriting
+                        if (child[parentField]) {
+                            const oldParent = treeData.find(m => m.id === child[parentField]);
+                            if (oldParent) {
+                                oldParent.childIds = oldParent.childIds.filter(id => id !== childId);
+                            }
+                        }
+
+                        // Set the parent reference on the child
+                        child[parentField] = parentMember.id;
+
+                        // Add child to parent's childIds (if not already present)
+                        const parentData = treeData.find(m => m.id === parentMember.id);
+                        if (!parentData.childIds.includes(childId)) {
+                            parentData.childIds.push(childId);
+                        }
+
+                        hasUnsavedChanges = true;
+
+                        // Rebuild and render
+                        buildTree();
+                        renderTree(true);
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Koppeling gemaakt',
+                            html: `<strong>${getFullName(child)}</strong> is nu gekoppeld als kind van <strong>${getFullName(parentMember)}</strong>.`,
+                            timer: 2500,
+                            showConfirmButton: false
+                        });
+                    }
+
+                    // Attach listeners to initial list
+                    attachItemListeners();
+
+                    // Focus search input
+                    searchInput.focus();
                 }
             });
         }
