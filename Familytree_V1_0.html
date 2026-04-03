@@ -148,6 +148,308 @@
             background: #7d3c98;
         }
 
+        .btn.sanity {
+            background: #e67e22;
+        }
+
+        .btn.sanity:hover {
+            background: #d35400;
+        }
+
+        /* Sanity check results */
+        .sanity-results {
+            text-align: left;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .sanity-results .sanity-item {
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .sanity-item.warning {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+        }
+
+        .sanity-item.error {
+            background: #f8d7da;
+            border-left: 4px solid #e74c3c;
+        }
+
+        .sanity-item strong {
+            color: #2c3e50;
+        }
+
+        .sanity-summary {
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .sanity-summary.ok {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .sanity-summary.issues {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Dark mode toggle button */
+        .btn.dark-toggle {
+            background: #555;
+            font-size: 14px;
+            min-width: auto;
+            padding: 6px 12px;
+        }
+
+        .btn.dark-toggle:hover {
+            background: #777;
+        }
+
+        /* ═══════════════════════════════════════ */
+        /*  DARK MODE                              */
+        /* ═══════════════════════════════════════ */
+        body.dark-mode {
+            background: #1a1a2e;
+        }
+
+        body.dark-mode .top-bar {
+            background: #16213e;
+        }
+
+        body.dark-mode .bottom-bar {
+            background: #16213e;
+        }
+
+        body.dark-mode .main-area {
+            background: #1a1a2e;
+        }
+
+        body.dark-mode .tree-svg {
+            background: #1a1a2e;
+        }
+
+        /* Node text in dark mode */
+        body.dark-mode .node text {
+            fill: #e0e0e0;
+        }
+
+        /* Links */
+        body.dark-mode .link {
+            stroke: #8899aa;
+        }
+
+        body.dark-mode .link.highlighted {
+            stroke: #ccd6e0;
+        }
+
+        body.dark-mode .marriage-link {
+            stroke: #e57373;
+        }
+
+        /* Node styling in dark mode — deeper gradients */
+        body.dark-mode .node.male rect {
+            fill: url(#maleGradientDark);
+            stroke: #4a90c4;
+        }
+
+        body.dark-mode .node.male:hover rect {
+            fill: url(#maleGradientDarkHover);
+        }
+
+        body.dark-mode .node.female rect {
+            fill: url(#femaleGradientDark);
+            stroke: #c45a7c;
+        }
+
+        body.dark-mode .node.female:hover rect {
+            fill: url(#femaleGradientDarkHover);
+        }
+
+        body.dark-mode .node:hover rect {
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
+        }
+
+        body.dark-mode .node.selected rect {
+            stroke: #f5a623;
+        }
+
+        /* Generation headers */
+        body.dark-mode .generation-header-bg {
+            fill: rgba(200, 210, 230, 0.08);
+        }
+
+        body.dark-mode .generation-header-text {
+            fill: #8899aa;
+        }
+
+        body.dark-mode .generation-header-number {
+            fill: #8899aa;
+        }
+
+        body.dark-mode .generation-divider {
+            stroke: rgba(200, 210, 230, 0.1);
+        }
+
+        /* Info panel */
+        body.dark-mode .info-panel {
+            background: rgba(30, 30, 50, 0.96);
+            border-right: 2px solid #3a3a5c;
+            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);
+        }
+
+        body.dark-mode .info-panel-header {
+            border-bottom-color: #4a90c4;
+        }
+
+        body.dark-mode .info-panel-header h2 {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .info-panel-close {
+            color: #999;
+        }
+
+        body.dark-mode .info-panel-close:hover {
+            color: #e74c3c;
+        }
+
+        body.dark-mode .info-field-label {
+            color: #8899aa;
+        }
+
+        body.dark-mode .info-field-value {
+            color: #d0d0d0;
+        }
+
+        body.dark-mode .info-section-divider {
+            border-top-color: #3a3a5c;
+        }
+
+        /* Welcome screen */
+        body.dark-mode .welcome-screen {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        body.dark-mode .welcome-screen h2 {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .welcome-screen p {
+            color: #8899aa;
+        }
+
+        body.dark-mode .welcome-hint {
+            color: #667788;
+        }
+
+        /* SweetAlert2 in dark mode */
+        body.dark-mode .swal2-popup {
+            background: #2a2a4a;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .swal2-title {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .swal2-html-container {
+            color: #c0c0d0;
+        }
+
+        /* Form elements in dark mode */
+        body.dark-mode .form-group label {
+            color: #c0c0d0;
+        }
+
+        body.dark-mode .form-group input,
+        body.dark-mode .form-group select,
+        body.dark-mode .form-group textarea {
+            background: #1e1e3a;
+            border-color: #3a3a5c;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .form-group input:focus,
+        body.dark-mode .form-group select:focus,
+        body.dark-mode .form-group textarea:focus {
+            border-color: #4a90c4;
+        }
+
+        body.dark-mode .form-group .date-help {
+            color: #667788;
+        }
+
+        /* Search input dark mode */
+        body.dark-mode .search-container input {
+            background: rgba(255, 255, 255, 0.08);
+            color: #e0e0e0;
+        }
+
+        /* Person picker dark mode */
+        body.dark-mode .person-picker-search {
+            background: #1e1e3a;
+            border-color: #3a3a5c;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .person-picker-search:focus {
+            border-color: #8e44ad;
+        }
+
+        body.dark-mode .person-picker-list {
+            background: #1e1e3a;
+            border-color: #3a3a5c;
+        }
+
+        body.dark-mode .person-picker-item {
+            border-bottom-color: #2a2a4a;
+        }
+
+        body.dark-mode .person-picker-item:hover {
+            background: #2a2a4a;
+        }
+
+        body.dark-mode .person-picker-item .person-name {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .person-picker-item .person-info {
+            color: #667788;
+        }
+
+        /* Sanity check dark mode */
+        body.dark-mode .sanity-item.warning {
+            background: #3a3520;
+            border-left-color: #f39c12;
+            color: #e0d0a0;
+        }
+
+        body.dark-mode .sanity-item.error {
+            background: #3a2025;
+            border-left-color: #e74c3c;
+            color: #e0a0a0;
+        }
+
+        body.dark-mode .sanity-summary.ok {
+            background: #1a3a20;
+            color: #80d090;
+        }
+
+        body.dark-mode .sanity-summary.issues {
+            background: #3a2025;
+            color: #e0a0a0;
+        }
+
         /* ── Print PDF ────────────────────────────────── */
         @media print {
             * {
@@ -823,6 +1125,8 @@
                 <button id="importGedcomBtn" class="btn">Import GEDCOM</button>
                 <button id="exportGedcomBtn" class="btn warning">Export GEDCOM</button>
                 <button id="printBtn" class="btn print">Print PDF</button>
+                <button id="sanityCheckBtn" class="btn sanity">Sanity Check</button>
+                <button id="darkModeBtn" class="btn dark-toggle">&#9790;</button>
                 <input type="file" id="fileInput" accept=".xml" />
                 <input type="file" id="gedcomFileInput" accept=".ged,.gedcom" />
             </div>
@@ -926,8 +1230,41 @@
             femaleHoverGrad.append('stop').attr('offset', '50%').attr('stop-color', '#ffc8d0');
             femaleHoverGrad.append('stop').attr('offset', '100%').attr('stop-color', '#f7b0bb');
 
+            // Dark mode gradients — deeper tones
+            const maleDarkGrad = defs.append('linearGradient')
+                .attr('id', 'maleGradientDark')
+                .attr('x1', '0%').attr('y1', '0%')
+                .attr('x2', '0%').attr('y2', '100%');
+            maleDarkGrad.append('stop').attr('offset', '0%').attr('stop-color', '#2a4a6b');
+            maleDarkGrad.append('stop').attr('offset', '50%').attr('stop-color', '#1e3a5a');
+            maleDarkGrad.append('stop').attr('offset', '100%').attr('stop-color', '#162d48');
+
+            const maleDarkHoverGrad = defs.append('linearGradient')
+                .attr('id', 'maleGradientDarkHover')
+                .attr('x1', '0%').attr('y1', '0%')
+                .attr('x2', '0%').attr('y2', '100%');
+            maleDarkHoverGrad.append('stop').attr('offset', '0%').attr('stop-color', '#355d80');
+            maleDarkHoverGrad.append('stop').attr('offset', '50%').attr('stop-color', '#284d6e');
+            maleDarkHoverGrad.append('stop').attr('offset', '100%').attr('stop-color', '#1e3d5c');
+
+            const femaleDarkGrad = defs.append('linearGradient')
+                .attr('id', 'femaleGradientDark')
+                .attr('x1', '0%').attr('y1', '0%')
+                .attr('x2', '0%').attr('y2', '100%');
+            femaleDarkGrad.append('stop').attr('offset', '0%').attr('stop-color', '#6b2a4a');
+            femaleDarkGrad.append('stop').attr('offset', '50%').attr('stop-color', '#5a1e3a');
+            femaleDarkGrad.append('stop').attr('offset', '100%').attr('stop-color', '#48162d');
+
+            const femaleDarkHoverGrad = defs.append('linearGradient')
+                .attr('id', 'femaleGradientDarkHover')
+                .attr('x1', '0%').attr('y1', '0%')
+                .attr('x2', '0%').attr('y2', '100%');
+            femaleDarkHoverGrad.append('stop').attr('offset', '0%').attr('stop-color', '#803555');
+            femaleDarkHoverGrad.append('stop').attr('offset', '50%').attr('stop-color', '#6e284d');
+            femaleDarkHoverGrad.append('stop').attr('offset', '100%').attr('stop-color', '#5c1e3d');
+
             g = svg.append('g');
-            
+
             zoom = d3.zoom()
                 .scaleExtent([0.05, 3])
                 .on('zoom', function(event) {
@@ -992,6 +1329,8 @@
             document.getElementById('importGedcomBtn').addEventListener('click', importGedcom);
             document.getElementById('exportGedcomBtn').addEventListener('click', exportGedcom);
             document.getElementById('printBtn').addEventListener('click', printScreen);
+            document.getElementById('sanityCheckBtn').addEventListener('click', sanityCheckTree);
+            document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
             document.getElementById('fileInput').addEventListener('change', handleFileLoad);
             document.getElementById('gedcomFileInput').addEventListener('change', handleGedcomLoad);
 
@@ -3804,6 +4143,170 @@
         }
 
         // ===== Print PDF (schermweergave) =====
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            const btn = document.getElementById('darkModeBtn');
+            btn.textContent = isDark ? '\u2600' : '\u263E';
+            try { localStorage.setItem('familytree-darkmode', isDark ? '1' : '0'); } catch(e) {}
+        }
+
+        // Restore dark mode preference on load
+        (function restoreDarkMode() {
+            try {
+                if (localStorage.getItem('familytree-darkmode') === '1') {
+                    document.body.classList.add('dark-mode');
+                    const btn = document.getElementById('darkModeBtn');
+                    if (btn) btn.textContent = '\u2600';
+                }
+            } catch(e) {}
+        })();
+
+        function sanityCheckTree() {
+            if (!treeData || treeData.length === 0) {
+                Swal.fire({ icon: 'warning', title: 'Geen stamboom', text: 'Laad eerst een stamboom.' });
+                return;
+            }
+
+            // Parse a date string (dd/mm/yyyy, mm/yyyy, or yyyy) into {day, month, year} or null
+            // Returns null if the date is too vague for the specific check
+            function parseDate(dateStr) {
+                if (!dateStr || !dateStr.trim()) return null;
+                const s = dateStr.trim();
+
+                // dd/mm/yyyy — full date
+                const fullMatch = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+                if (fullMatch) {
+                    return { day: parseInt(fullMatch[1]), month: parseInt(fullMatch[2]), year: parseInt(fullMatch[3]), precision: 'full' };
+                }
+
+                // mm/yyyy — month + year
+                const monthMatch = s.match(/^(\d{1,2})\/(\d{4})$/);
+                if (monthMatch) {
+                    return { day: null, month: parseInt(monthMatch[1]), year: parseInt(monthMatch[2]), precision: 'month' };
+                }
+
+                // yyyy — year only
+                const yearMatch = s.match(/^(\d{4})$/);
+                if (yearMatch) {
+                    return { day: null, month: null, year: parseInt(yearMatch[1]), precision: 'year' };
+                }
+
+                return null;
+            }
+
+            // Calculate age difference in years (approximate).
+            // Returns null if not enough precision to determine.
+            function yearsDiff(parentDate, childDate) {
+                if (!parentDate || !childDate) return null;
+                return childDate.year - parentDate.year;
+            }
+
+            // Check if deathDate is before childBirthDate.
+            // Returns true if we can determine the mother died BEFORE the child was born.
+            // Returns false (safe) if dates are too vague to be sure.
+            function diedBeforeBirth(deathDate, birthDate) {
+                if (!deathDate || !birthDate) return false; // can't determine, skip
+
+                // Compare years first
+                if (deathDate.year < birthDate.year) return true;
+                if (deathDate.year > birthDate.year) return false;
+
+                // Same year — need more precision
+                if (deathDate.precision === 'year' || birthDate.precision === 'year') return false; // can't tell within same year
+
+                // Both have at least month precision
+                if (deathDate.month < birthDate.month) return true;
+                if (deathDate.month > birthDate.month) return false;
+
+                // Same month — need day precision
+                if (deathDate.precision !== 'full' || birthDate.precision !== 'full') return false; // can't tell within same month
+
+                // Both have full precision
+                if (deathDate.day < birthDate.day) return true;
+
+                return false; // same day or later is OK (died at birth is allowed)
+            }
+
+            const issues = [];
+
+            treeData.forEach(child => {
+                const childBirth = parseDate(child.birthDate);
+                if (!childBirth) return; // No birth date, skip all checks for this child
+                if (child.birthDateCirca) return; // Circa date, too imprecise
+
+                const childName = getFullName(child);
+
+                // Check father
+                if (child.fatherId) {
+                    const father = treeData.find(m => m.id === child.fatherId);
+                    if (father) {
+                        const fatherBirth = parseDate(father.birthDate);
+                        if (fatherBirth && !father.birthDateCirca) {
+                            const ageDiff = yearsDiff(fatherBirth, childBirth);
+                            if (ageDiff !== null && ageDiff < 16) {
+                                issues.push({
+                                    type: 'error',
+                                    text: `<strong>${getFullName(father)}</strong> was ${ageDiff} jaar oud bij de geboorte van <strong>${childName}</strong> (jonger dan 16).`
+                                });
+                            }
+                        }
+                    }
+                }
+
+                // Check mother
+                if (child.motherId) {
+                    const mother = treeData.find(m => m.id === child.motherId);
+                    if (mother) {
+                        const motherBirth = parseDate(mother.birthDate);
+
+                        // Rule 1: Mother must be at least 14
+                        if (motherBirth && !mother.birthDateCirca) {
+                            const ageDiff = yearsDiff(motherBirth, childBirth);
+                            if (ageDiff !== null && ageDiff < 16) {
+                                issues.push({
+                                    type: 'error',
+                                    text: `<strong>${getFullName(mother)}</strong> was ${ageDiff} jaar oud bij de geboorte van <strong>${childName}</strong> (jonger dan 16).`
+                                });
+                            }
+                        }
+
+                        // Rule 2: Mother must be alive at birth (or die at birth, not before)
+                        const motherDeath = parseDate(mother.deathDate);
+                        if (motherDeath && !mother.deathDateCirca) {
+                            if (diedBeforeBirth(motherDeath, childBirth)) {
+                                issues.push({
+                                    type: 'error',
+                                    text: `<strong>${getFullName(mother)}</strong> is overleden voor de geboorte van <strong>${childName}</strong>.`
+                                });
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Build results HTML
+            let html = '';
+            if (issues.length === 0) {
+                html = `<div class="sanity-summary ok">Geen problemen gevonden in de stamboom.</div>`;
+            } else {
+                html = `<div class="sanity-summary issues">${issues.length} probleem${issues.length > 1 ? 'en' : ''} gevonden</div>`;
+                html += `<div class="sanity-results">`;
+                issues.forEach(issue => {
+                    html += `<div class="sanity-item ${issue.type}">${issue.text}</div>`;
+                });
+                html += `</div>`;
+            }
+
+            Swal.fire({
+                title: 'Sanity Check Resultaten',
+                html: html,
+                width: '600px',
+                confirmButtonText: 'Sluiten',
+                confirmButtonColor: '#e67e22'
+            });
+        }
+
         function printScreen() {
             if (!treeData || treeData.length === 0) {
                 Swal.fire({

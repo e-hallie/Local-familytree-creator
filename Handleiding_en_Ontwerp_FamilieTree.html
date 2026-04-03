@@ -342,7 +342,7 @@
         <li><a href="#s3" class="toc-section">Schermopbouw</a></li>
         <li>
             <a href="#s4" class="toc-section">Handleiding — functies per onderwerp</a>
-            <span class="toc-sub">Bestanden · Weergave · Bewerken · Zoeken · Zoom · Toetsenbord · Print/PDF</span>
+            <span class="toc-sub">Bestanden · Weergave · Bewerken · Zoeken · Zoom · Toetsenbord · Print/PDF · Sanity Check · Dark Mode</span>
         </li>
         <li><a href="#s5" class="toc-section">Gegevensvelden per persoon</a></li>
         <li><a href="#s6" class="toc-section">Validatieregels</a></li>
@@ -528,6 +528,14 @@
             <td><kbd style="background:#8e44ad;">Print PDF</kbd></td>
             <td>Drukt de huidige schermweergave af als PDF (zie sectie 4.7).</td>
         </tr>
+        <tr>
+            <td><kbd style="background:#e67e22;">Sanity Check</kbd></td>
+            <td>Controleert de gehele stamboom op logische fouten in ouder-kind relaties (zie sectie 4.8).</td>
+        </tr>
+        <tr>
+            <td><kbd style="background:#555;">&#9790; / &#9788;</kbd></td>
+            <td>Schakelt tussen lichte en donkere weergave (dark mode). Uw voorkeur wordt onthouden (zie sectie 4.9).</td>
+        </tr>
     </table>
     <div class="callout tip">
         <strong>💡 Aanbeveling werkwijze</strong>
@@ -617,6 +625,10 @@
             <td>Voegt een nieuw kind toe onder de geselecteerde persoon.</td>
         </tr>
         <tr>
+            <td><kbd style="background:#8e44ad;">Bestaand kind koppelen</kbd></td>
+            <td>Koppelt een <em>al bestaand</em> persoon uit de boom als kind van de geselecteerde ouder. Handig bij huwelijken binnen bestaande familielijnen.</td>
+        </tr>
+        <tr>
             <td><kbd class="green">Save Changes</kbd></td>
             <td>Slaat de gewijzigde gegevens op in het geheugen en herlaadt de boom. De validatieregels worden hierbij gecontroleerd.</td>
         </tr>
@@ -625,6 +637,19 @@
             <td>Verwijdert de persoon <em>en alle relaties</em> naar deze persoon. Er verschijnt een bevestigingsdialoog.</td>
         </tr>
     </table>
+
+    <div class="callout tip">
+        <strong>Bestaand kind koppelen</strong><br>
+        Bij huwelijken binnen bestaande familielijnen (bijv. neven/nichten die trouwen) kan een persoon al in de boom staan, maar nog niet gekoppeld zijn als kind van een ander echtpaar.
+        Gebruik <kbd style="background:#8e44ad;">Bestaand kind koppelen</kbd> om dit op te lossen:
+        <ol style="margin-top:6px; margin-bottom:0;">
+            <li>Klik in Edit-modus op de ouder waaraan u het kind wilt koppelen.</li>
+            <li>Klik op <kbd style="background:#8e44ad;">Bestaand kind koppelen</kbd>.</li>
+            <li>Zoek de persoon op naam in het zoekscherm.</li>
+            <li>Klik op de gewenste persoon om de koppeling te maken.</li>
+        </ol>
+        Als het kind al een vader of moeder heeft, wordt gevraagd of u de bestaande ouder wilt overschrijven.
+    </div>
 
     <div class="callout warn">
         <strong>⚠️ Verwijderen is onomkeerbaar</strong>
@@ -690,6 +715,46 @@
     <div class="callout tip">
         <strong>PDF opslaan</strong>
         In het afdrukvenster van uw browser kunt u kiezen voor "Opslaan als PDF" in plaats van een fysieke printer. Hiermee maakt u een PDF-bestand aan op uw computer.
+    </div>
+
+    <hr>
+
+    <!-- 4.8 Sanity Check -->
+    <h3>4.8 &nbsp; Sanity Check</h3>
+    <p>Klik op de knop <kbd style="background:#e67e22;">Sanity Check</kbd> in de bovenbalk om de gehele stamboom te controleren op logische fouten in ouder-kind relaties.</p>
+
+    <p><strong>De volgende controles worden uitgevoerd:</strong></p>
+    <table>
+        <tr>
+            <th>Controle</th>
+            <th>Toelichting</th>
+        </tr>
+        <tr>
+            <td><strong>Minimumleeftijd ouder</strong></td>
+            <td>Vader en moeder moeten minimaal 16 jaar oud zijn bij de geboorte van een kind.</td>
+        </tr>
+        <tr>
+            <td><strong>Moeder in leven</strong></td>
+            <td>De moeder moet in leven zijn bij de geboorte van het kind. Overlijden op de dag van geboorte is toegestaan, maar een eerdere overlijdensdatum wordt als fout gemeld.</td>
+        </tr>
+    </table>
+
+    <div class="callout tip">
+        <strong>Onvoldoende datumgegevens</strong><br>
+        Wanneer een geboortedatum of overlijdensdatum ontbreekt, onvolledig is, of als <em>circa</em> (bij benadering) is gemarkeerd, wordt de betreffende controle automatisch overgeslagen. Zo worden er geen valse meldingen gegeven bij onzekere data.
+    </div>
+
+    <hr>
+
+    <!-- 4.9 Dark Mode -->
+    <h3>4.9 &nbsp; Dark Mode</h3>
+    <p>Klik op het maan-icoon <kbd style="background:#555;">&#9790;</kbd> rechts in de bovenbalk om over te schakelen naar de donkere weergave. Het icoon verandert in een zon <kbd style="background:#555;">&#9788;</kbd> — klik opnieuw om terug te keren naar de lichte weergave.</p>
+
+    <p>In dark mode worden alle onderdelen aangepast: achtergrond, persoonskaarten, verbindingslijnen, infopaneel, generatiekoppen en dialoogvensters. De kleuren van mannelijke en vrouwelijke kaarten blijven herkenbaar in diepere tinten.</p>
+
+    <div class="callout tip">
+        <strong>Voorkeur wordt onthouden</strong><br>
+        Uw keuze voor licht of donker wordt opgeslagen in de browser (localStorage). Bij een volgend bezoek wordt uw voorkeur automatisch hersteld.
     </div>
 </div>
 
